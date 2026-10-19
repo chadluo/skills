@@ -1,0 +1,4 @@
+interface:
+  display_name: "Herdr PR Review"
+  short_description: "Coordinate writer and reviewer agents through Herdr"
+  default_prompt: "Use $herdr-pr-review to coordinate an independent writer and reviewer through Herdr for this task, PR, or review, within the scope I request, until it is unblocked."
