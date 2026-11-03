@@ -1,19 +1,11 @@
 ---
 name: herdr-pr-review
-description: Coordinate a writer and an independent reviewer through Herdr to implement work, create or update a PR, and repeat review and fixes until unblocked. Use when the user requests this Herdr workflow, including continuing an existing PR review loop or a review-only run.
+description: Coordinate a writer and an independent reviewer through Herdr (the Herdr desktop app with `hc`, or the Herdr CLI with `herdr`) to implement work, create or update a PR, and repeat review and fixes until unblocked. Use when the user requests this Herdr workflow, including continuing an existing PR review loop or a review-only run.
 ---
 
 # Herdr PR Review
 
 Two agents: the writer implements and owns the PR; a separate reviewer reviews. Codex or Claude can take either role. Prefer different models.
-
-<!--
-Prompting rules distilled from https://developers.openai.com/api/docs/guides/latest-model.md and
-https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md.
-Runtime notes in references/ checked against Codex CLI 0.162.1 and Claude Code 2.1.296; prompting sections refreshed
-Oct 2026 (GPT-6 family, Claude 5 family); installed now Codex CLI 0.163.0, Claude Code 2.1.302, not re-verified.
-Recheck when models or CLIs change; do not fetch at run time.
--->
 
 ## Authorization
 
@@ -21,16 +13,31 @@ Recheck when models or CLIs change; do not fetch at run time.
 - Implement-and-PR request authorizes commits, pushes, PR creation, and task-related review comments and replies. Review-only request authorizes review only. Editing this skill authorizes nothing.
 - Merge, auto-merge, force-push: only with explicit user authorization for that PR or branch.
 
+## Herdr mode
+
+Herdr comes in two forms with different commands and environments. Find the mode before any other step:
+
+- `HC_TERMINAL_ID` is set → **Herdr app** (desktop terminal app, herdr-core). Run `hc --skill` and follow it to start, message, read, wait for, and clean up agents. Do not require `HERDR_ENV`, and do not use `herdr` commands. Use `herdr-app --skill` only when the user asks to change what the window shows.
+- Else `HERDR_ENV=1` → **Herdr CLI** (terminal multiplexer that runs in another terminal). Run `herdr --skill` and follow it for panes, prompts, reads, and blocked agents.
+- Neither → report that this session is not inside Herdr and stop.
+
+App-mode rules:
+
+- Start each agent with `hc run --bg --name <name> --cwd <path> <command> "<first task>"`. Put the first task in `run`, not in a later send. Then check `first_message.sent`; if false, `hc read` the screen and resolve the cause (for example a trust dialog) before you send.
+- Give every handoff the coordinator address: `PARENT=$HC_TERMINAL_ID`. The agent reports with `hc send $PARENT "<status line>"`.
+- Wait with `hc wait --children any` or `hc wait <name> --output "<role> rN "`, never with sleep loops. `reason: timeout` is a check-in: read state, then wait again.
+- Never send agent slash commands (`/model`) with `hc send`. Type them with `hc keys <name> / m o d e l` then `hc keys <name> enter`.
+- `hc templates` can supply roles. Use one only when it fits the runtime notes below.
+
 ## Setup
 
-1. Read the installed `herdr` skill first; follow it for panes, prompts, reads, and blocked agents. `HERDR_ENV=1` not set → report it and stop.
+1. Find the Herdr mode (above) and read the skill text for that mode.
 2. Pin: task or PR, repo path, base, merge-base SHA, head SHA, working-tree status, repo instructions, required verification. Preserve unrelated work. Continuation → read existing reviews and checks first.
 3. Per agent, record runtime + version, model, effort, permission policy, authorized actions. Mark a value verified only from visible status or config, else `unknown`.
 4. Assignments: honor the user's; else different models, preferably different families; disclose any fallback. Reviewer effort, unless the user set it:
    - medium or higher: concurrency, persistence, migrations, capture or media pipelines, purchases, large refactors.
    - low: small UI, copy, configuration.
-     Reason: low effort gave more invalid findings and missed the race and state bugs that medium found.
-5. Reuse idle agents with known assignments, or start sibling panes. One writer per branch; never edit during a review. Same checkout by default; isolated worktree when requested or when unrelated changes could be mistaken for the PR.
+5. Reuse idle agents with known assignments, or start new agent terminals: sibling panes (CLI) or `hc run --bg` terminals (app). One writer per branch; never edit during a review. Same checkout by default; isolated worktree when requested or when unrelated changes could be mistaken for the PR.
 6. Create a run directory outside the repo, e.g. `/tmp/herdr-<task>/`. All handoffs, replies, and the ledger live there.
 
 ## Token budget
@@ -38,7 +45,7 @@ Recheck when models or CLIs change; do not fetch at run time.
 Each message between agents costs a full turn for both sides. Rules:
 
 - File handoffs: write the handoff to `<run>/writer.md` or `<run>/reviewer.md`; prompt only `Read <path> and follow it.` Later rounds: write `<run>/round-N.md`; prompt with that path only.
-- File replies: each agent writes its full reply to `<run>/<role>-rN.md` and prints one status line in the pane: `<role> rN <verdict|done> head=<sha> blockers=<n> file=<path>`. The coordinator waits, reads the status line, and opens the file only when it must act on the content.
+- File replies: each agent writes its full reply to `<run>/<role>-rN.md` and gives one status line: `<role> rN <verdict|done> head=<sha> blockers=<n> file=<path>`. CLI: it prints the line in its pane. App: it also sends the line with `hc send $PARENT`. The coordinator waits, reads the status line, and opens the file only when it must act on the content.
 - Pass paths, not copies. Point the writer at `reviewer-rN.md`; do not paste or restate findings.
 - One message per agent per round. Send all findings at once; the writer answers all of them in one turn (fix, or dispute with evidence). No acknowledgements, readiness pings, or "are you done" prompts. Get model and effort from status, not by asking.
 - Keep both sessions alive across rounds; do not restart or `/clear` mid-loop. Re-review sends the incremental diff `<prev>..<new>`, not the full PR.
@@ -71,9 +78,9 @@ Continuation: send unresolved findings to the relevant agent; do not redo finish
 Include: task and acceptance criteria, repo instructions, repo path, PR URL, merge-base..head SHAs, the writer's verification evidence, and:
 
 - The issue or task text verbatim, or the command to read it, never only a summary.
-- User decisions that settle scope: approved exclusions, accepted limits, deferred work. Reason: past invalid findings came from summaries that dropped these.
+- User decisions that settle scope: approved exclusions, accepted limits, deferred work.
 - Verification permissions (see Reviewer verification) and whether it may post on the PR.
-- No repository changes: no edits to tracked or untracked files, no commits. Reason: the writer owns the branch; reviewer edits change the reviewed tree.
+- No repository changes: no edits to tracked or untracked files, no commits.
 
 First review is independent: the reviewer reads the full diff and related code before it sees the writer's explanations.
 
@@ -89,7 +96,7 @@ First review is independent: the reviewer reads the full diff and related code b
 - Fix: name the broken invariant and smallest correction. Check that the recommendation preserves related behavior: geometry, orientation, Undo, media retention, gesture ownership, accessibility, as applicable. Implementation is a suggestion; an equivalent correction is acceptable. No new abstractions, persistence layers, or defensive code for P3.
 - Style: one brief pass for redundant work, duplication, unclear naming, and inconsistency with surrounding code/UI. Use the existing three optional slots; state the concrete benefit. Zero suggestions is valid.
 - Tests: follow repo/user test policy; request coverage for a named regression or non-trivial invariant. Before recommending removal, identify the protected behavior and explain why protection is unnecessary or covered elsewhere. No seams made only for a test. A missing test alone never blocks.
-- Sub-agents: merge every sub-agent finding into the reply; list each dropped one with a one-line reason. Reason: dropped sub-agent findings have shipped as bugs.
+- Sub-agents: merge every sub-agent finding into the reply; list each dropped one with a one-line reason.
 - Device-only behavior (hardware, OS state, store sandbox, real camera, orientation, presentation feel): list it as not cleared by code review.
 
 ## Finding format
@@ -104,7 +111,7 @@ If a formal GitHub review is impossible (e.g. shared author account), keep the a
 
 ## Reviewer verification
 
-Default: the reviewer may run targeted checks, not the full suite. Reason: reviews that ran a check had no invalid findings and caught a bug that a passed device check missed.
+Default: the reviewer may run targeted checks, not the full suite.
 
 - Allowed: a focused test, a build of the affected target, a throwaway script, or a scratch test outside the repo, to confirm or refute one suspected defect or to verify one fix.
 - Not the reviewer's job: full suite and acceptance runs. The writer owns them; the reviewer checks that the evidence matches the head and the claim.
@@ -129,7 +136,7 @@ Before you launch an agent or write its handoff, read its runtime file. Apply it
 4. After two fix rounds: coordinator checkpoint. Continue only for an existing blocker or fix regression, with demonstrated progress and a concrete next check. Stop on no progress or scope growth; report unresolved findings. Never manufacture clearance.
 5. Report to the user and continue independent work when a finding stays disputed, checks need unavailable infrastructure, permissions block progress, or a round makes no progress. Never manufacture `clear` or weaken acceptance criteria.
 
-Wait through Herdr in bounded intervals; give the user short progress updates. Lifecycle states show readiness, not success. On timeout, stall, `blocked`, or `unknown`: read state and output before any retry; never resend blindly. Keep the same agents across rounds; a replacement gets the ledger, criteria, verification results, and latest head.
+Wait through Herdr (`herdr` or `hc`, by mode) in bounded intervals; give the user short progress updates. Lifecycle states show readiness, not success. On timeout, stall, `blocked`, or `unknown`: read state and output before any retry; never resend blindly. Keep the same agents across rounds; a replacement gets the ledger, criteria, verification results, and latest head.
 
 ## Completion
 
@@ -139,4 +146,4 @@ Refresh the head, threads, review states, and required checks (review-only witho
 - Every blocker has a confirmed disposition; no outstanding change requests or required approvals.
 - Required checks pass and acceptance criteria are met. A gap in required verification keeps the run blocked.
 
-Report: PR link, writer and reviewer runtimes, models, efforts (or `unknown`), final reviewed SHA, verification outcome, remaining optional suggestions or blockers, deferred and dropped findings, and device or runtime checks the review did not clear. Leave the PR open unless the user explicitly asked for a merge.
+Report: PR link, writer and reviewer runtimes, models, efforts (or `unknown`), final reviewed SHA, verification outcome, remaining optional suggestions or blockers, deferred and dropped findings, and device or runtime checks the review did not clear. Leave the PR open unless the user explicitly asked for a merge. When the user accepts the result, stop the agent terminals you started (app: `hc kill <name>; hc rm <name>`); never touch other terminals.
