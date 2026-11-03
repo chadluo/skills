@@ -34,7 +34,7 @@ App-mode rules:
 - Start agents with `hc run --bg --name <name> --cwd <path> <command> "<first task>"`. If `first_message.sent` is not `true`, read the screen. Send the task only at an empty prompt, turn 0.
 - Write your `$HC_TERMINAL_ID` value into each handoff's report command: `hc send <id> "<status line>"`.
 - Wait with `hc wait --children any`.
-- Type agent slash commands as single keys: `hc keys <name> / m o d e l enter`. `hc send` wraps the text, so the command does not run. In a `/model` list, `s` sets this session only; Enter saves a global default.
+- Type agent slash commands as single keys: `hc keys <name> / m o d e l enter`. `hc send` wraps the text, so the command does not run. At final confirmation, `s` sets this session only; Enter saves a global default.
 - Use an `hc templates` role only when it fits the runtime notes below.
 
 ## Agent status
