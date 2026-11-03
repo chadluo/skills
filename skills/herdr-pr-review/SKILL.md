@@ -34,7 +34,7 @@ App-mode rules:
 - Start agents with `hc run --bg --name <name> --cwd <path> <command> "<first task>"`. If `first_message.sent` is not `true`, read the screen. Send the task only at an empty prompt, turn 0.
 - Write your `$HC_TERMINAL_ID` value into each handoff's report command: `hc send <id> "<status line>"`.
 - Wait with `hc wait --children any`.
-- Type agent slash commands as single keys: `hc keys <name> / m o d e l enter`. `hc send` wraps the text, so the command does not run.
+- Type agent slash commands as single keys: `hc keys <name> / m o d e l enter`. `hc send` wraps the text, so the command does not run. In a `/model` list, `s` sets this session only; Enter saves a global default.
 - Use an `hc templates` role only when it fits the runtime notes below.
 
 ## Agent status
@@ -71,7 +71,7 @@ App-mode rules:
 ## Rules for every handoff
 
 - State the authorized actions and precedence. Finish authorized work before asking questions; when you deviate or stop, cite the exact instruction or blocker.
-- State what done means and when to stop. Agents ask only the coordinator. It answers from the pinned task and decisions, or asks the user. Reviewers record open questions about the writer's code as `hypothesis`; the writer answers in its next turn.
+- State what done means and when to stop. Agents ask only the coordinator, which answers from the pinned task and decisions or asks the user. Reviewers record open questions about the writer's code as `hypothesis`; the writer answers in its next turn.
 - Scope: the task only. No extra files, abstractions, unrequested refactors, or code special-cased to pass tests.
 - Reply files: short plain bullets, no tables. Return the requested fields, then end the turn.
 
@@ -92,7 +92,7 @@ Include: task and acceptance criteria, repo instructions, repo path, PR URL, mer
 - The issue or task text verbatim, or the command to read it, because a summary can change a rule and cause invalid findings.
 - User decisions that settle scope: approved exclusions, accepted limits, deferred work. Without them, the reviewer reports accepted behavior as defects.
 - Verification permissions (see Reviewer verification) and whether it may post on the PR.
-- No repository changes: no edits to tracked or untracked files, no commits.
+- No repository changes: no edits to tracked or untracked files, no commits, because an edit changes the tree under review.
 
 First review is independent: the reviewer reads the full diff and related code before it sees the writer's explanations.
 
@@ -137,7 +137,7 @@ Before you launch an agent or write its handoff, read its runtime file. Apply it
 ## Review and fix loop
 
 1. Collect the reviewer reply plus all PR comments, unresolved threads, review states, and checks, from people and automation. Keep the ledger in `<run>/ledger.md`: ID or thread, requested change, disposition, fix commit or evidence, reviewer confirmation. Include dropped and deferred findings. If the PR merges before the review ends, still collect the verdict and report every finding to the user for follow-up.
-2. Writer turn: point the writer at the reviewer reply. Each blocker needs a fix or an evidence-backed dispute, plus relevant verification, the new head, and PR replies where authorized. Optional and P3 items need only a disposition in the reply file; they get no extra round and do not widen scope.
+2. Writer turn: each blocker needs a fix or an evidence-backed dispute, plus relevant verification, the new head, and PR replies where authorized. Optional and P3 items need only a disposition in the reply file; they get no extra round and do not widen scope.
 3. Reviewer turn (round 2 and later): send the new head, the `<prev>..<new>` diff, and the ledger path. The reviewer checks the original failure, fix completeness, fix regressions, and its own earlier recommendations, as strictly as writer code. The writer's claim alone never clears a blocker. Resolve threads only after reviewer confirmation, following repo ownership rules.
    - Scope: incremental diff + affected callers/invariants. New unrelated findings become follow-ups unless P1. Incomplete fixes and fix regressions remain blocking at P1/P2.
    - Downgrade severity only when evidence changes the assessed impact or likelihood.

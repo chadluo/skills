@@ -6,7 +6,7 @@
 - App: `hc run --bg --name <name> --cwd <path> codex --no-daemon <flags> "<first task>"`. Always pass `--no-daemon`, because without it Codex runs its commands outside Herdr.
 - Flags: `-s <sandbox>`, `-c model_reasoning_effort=<level>`, `--add-dir <path>`.
 - Omit `-m` to use the model in `~/.codex/config.toml`. Never pass a model name from memory, because the backend rejects retired names and the turn is lost. For an exact model, pick it from the `/model` list after start. Read the model in use from the status line.
-- Effort levels differ by model; pick one from the `/model` effort list. Map `minimal` to `low`. In that list, `s` sets the level for this session only; Enter saves it as the default.
+- Effort levels differ by model; pick one from the `/model` effort list. Map `minimal` to `low`.
 
 ## Roles
 
