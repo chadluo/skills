@@ -81,7 +81,7 @@ Include: task, acceptance criteria, repo path, branch and base, repo instruction
 
 - Implement the scoped change; run verification that fits the repo and risk.
 - Create or update the PR: final behavior, validation, material limits.
-- Stacked PRs: after the lower PR is squash-merged, merge the branch that received it (usually `main`) into the next branch. If the next PR still targets the lower branch, retarget it to that branch. Do not rebase or force-push.
+- Stacked PRs: after the lower PR is squash-merged into its base (usually `main`), merge that base into the next branch and set the next PR's base to the same branch. Do not rebase or force-push.
 - Reply: PR URL, branch, head SHA, change summary, verification results, known gaps.
 - Change nothing more until findings arrive. The writer owns all later fixes.
 
@@ -106,7 +106,7 @@ First review is independent: the reviewer reads the full diff and related code b
   - P2: concrete user-visible defect on a plausible path.
   - P3: minor impact.
 - Fix: name the broken invariant and smallest correction. Check that it preserves related behavior (for example layout, Undo, accessibility, data that other code reads). An equivalent correction is acceptable. No new abstractions, persistence layers, or defensive code for P3.
-- Style: one brief pass for duplication, unclear naming, and inconsistency with surrounding code. Report these as optional suggestions with a concrete benefit; zero is valid.
+- Style: one brief pass for redundant work, duplication, unclear naming, and inconsistency with surrounding code or UI. Report these as optional suggestions with a concrete benefit; zero is valid.
 - Tests: follow repo/user test policy; request coverage only for a named regression or non-trivial invariant. Recommend test removal only with the behavior it protects and why that is covered or unnecessary. No seams made only for a test. A missing test alone never blocks.
 - Sub-agents (the reviewer's own in-session helpers, not Herdr agents): use them only for a diff of about 400 or more changed lines or several subsystems. Merge every sub-agent finding into the reply; list each dropped one with a one-line reason, because a dropped finding can ship as a bug.
 - Device-only behavior (hardware, OS state, store sandbox, camera, presentation feel): list it as not cleared by code review. A screenshot shows only an end state; check animation and timing defects with video frames.
