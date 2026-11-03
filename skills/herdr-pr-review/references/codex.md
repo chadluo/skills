@@ -13,7 +13,6 @@
 - Writer: `-s workspace-write`. This sandbox can block Git metadata writes (also in a worktree with `--add-dir`), the remote, the GitHub API, and some build and test tools. Tell the writer to check these with read-only commands first and to report each failure without a workaround. Run each blocked step (build, test, commit, push, PR) yourself or in a Claude Code agent.
 - Reviewer: `-s workspace-write` + the no-edit rule. Do not use `read-only`; it blocks builds and tests. Use `--add-dir` for output paths outside the repo.
 - `codex review` is optional: only with `--base <pinned merge-base>`, after you confirm the checkout is at the pinned head. `--commit` covers one commit only.
-- Root review summary shorter than its sub-agent replies → read the sub-agent replies yourself.
 
 ## Handoff wording
 

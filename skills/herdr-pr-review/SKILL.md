@@ -31,8 +31,8 @@ Find the mode first:
 
 App-mode rules:
 
-- Start each agent with `hc run --bg --name <name> --cwd <path> <command> "<first task>"`, and check `first_message.sent`.
-- Set `PARENT=<coordinator-id>` in each handoff. Agents report with `hc send $PARENT "<status line>"`.
+- Start agents with `hc run --bg --name <name> --cwd <path> <command> "<first task>"`. If `first_message.sent` is not `true`, read the screen. Send the task only at an empty prompt, turn 0.
+- Write your `$HC_TERMINAL_ID` value into each handoff's report command: `hc send <id> "<status line>"`.
 - Wait with `hc wait --children any`.
 - Type agent slash commands with `hc keys <name> / m o d e l` then `hc keys <name> enter`. `hc send` wraps the text, so the command does not run.
 - Use an `hc templates` role only when it fits the runtime notes below.
@@ -62,11 +62,11 @@ App-mode rules:
 ## Messages and files
 
 - Handoffs: write `<run>/writer.md` and `<run>/reviewer.md`, then `<run>/round-N-<role>.md`. Prompt only `Read <path> and follow it.`
-- Replies: each agent writes its full reply to `<run>/<role>-rN.md` and gives one status line: `<role> rN <verdict|done> head=<sha> blockers=<n> file=<path>`. CLI: in its pane; app: also with `hc send $PARENT`. Open the file only when you must act on it.
+- Replies: each agent writes its full reply to `<run>/<role>-rN.md` and gives one status line: `<role> rN <verdict|done> head=<sha> blockers=<n> file=<path>`. CLI: in its pane; app: also with `hc send <id>`. Open the file only when you must act on it.
 - Point the writer at `reviewer-rN.md`; do not paste or restate findings.
 - One message per agent per round, because each message costs a full turn. The writer answers all findings in one turn: fix, or dispute with evidence.
 - Keep both sessions alive across rounds; do not restart or `/clear` them. A replacement agent gets the ledger, criteria, verification results, and latest head.
-- Before its first reply, the writer checks its own diff against the Reviewer rules, because this costs less than a review round.
+- Before its first reply, the writer checks its diff against the Reviewer rules.
 
 ## Rules for every handoff
 

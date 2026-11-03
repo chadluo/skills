@@ -5,12 +5,13 @@
 - CLI: `herdr agent start <name> --kind claude --pane <shell-pane-id> -- <flags>`
 - App: `hc run --bg --name <name> --cwd <path> <claude-path> <flags> "<first task>"`.
 - Verify which `claude` binary runs. Flags: `--effort <level>`, `--permission-mode <mode>` (`claude --help`).
+- Pass `--add-dir <run>`; without it, each reply-file write asks for approval.
 - Omit `--model` to use the configured model. To pin a model, pass an alias such as `opus` or `sonnet`, because a full model ID from memory can fail mid-run. For an exact model, pick it from the `/model` list after start. Read the model in use from the status line.
 
 ## Roles
 
-- Writer: the user's normal permission mode. Use `bypassPermissions` or `--dangerously-skip-permissions` only on user request.
-- Reviewer: the user's normal mode + the no-edit rule. Use `plan` mode only for a review with no execution; it blocks targeted checks and does not guarantee a read-only filesystem.
+- Writer: the user's normal permission mode. Use `bypassPermissions` only on user request.
+- Reviewer: the user's normal mode + the no-edit rule. Do not use `plan` mode; it blocks the reply file and targeted checks.
 
 ## Handoff wording
 
