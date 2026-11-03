@@ -34,7 +34,7 @@ App-mode rules:
 - Start agents with `hc run --bg --name <name> --cwd <path> <command> "<first task>"`. If `first_message.sent` is not `true`, read the screen. Send the task only at an empty prompt, turn 0.
 - Write your `$HC_TERMINAL_ID` value into each handoff's report command: `hc send <id> "<status line>"`.
 - Wait with `hc wait --children any`.
-- Type agent slash commands with `hc keys <name> / m o d e l` then `hc keys <name> enter`. `hc send` wraps the text, so the command does not run.
+- Type agent slash commands as single keys: `hc keys <name> / m o d e l enter`. `hc send` wraps the text, so the command does not run.
 - Use an `hc templates` role only when it fits the runtime notes below.
 
 ## Agent status
@@ -64,14 +64,14 @@ App-mode rules:
 - Handoffs: write `<run>/writer.md` and `<run>/reviewer.md`, then `<run>/round-N-<role>.md`. Prompt only `Read <path> and follow it.`
 - Replies: each agent writes its full reply to `<run>/<role>-rN.md` and gives one status line: `<role> rN <verdict|done> head=<sha> blockers=<n> file=<path>`. CLI: in its pane; app: also with `hc send <id>`. Open the file only when you must act on it.
 - Point the writer at `reviewer-rN.md`; do not paste or restate findings.
-- One message per agent per round, because each message costs a full turn. The writer answers all findings in one turn: fix, or dispute with evidence.
+- One message per agent per round. The writer answers all findings in one turn: fix, or dispute with evidence.
 - Keep both sessions alive across rounds; do not restart or `/clear` them. A replacement agent gets the ledger, criteria, verification results, and latest head.
 - Before its first reply, the writer checks its diff against the Reviewer rules.
 
 ## Rules for every handoff
 
 - State the authorized actions and precedence. Finish authorized work before asking questions; when you deviate or stop, cite the exact instruction or blocker.
-- State what done means and when to stop and ask.
+- State what done means and when to stop. Agents ask only the coordinator. It answers from the pinned task and decisions, or asks the user. Reviewers record open questions about the writer's code as `hypothesis`; the writer answers in its next turn.
 - Scope: the task only. No extra files, abstractions, unrequested refactors, or code special-cased to pass tests.
 - Reply files: short plain bullets, no tables. Return the requested fields, then end the turn.
 
@@ -92,7 +92,7 @@ Include: task and acceptance criteria, repo instructions, repo path, PR URL, mer
 - The issue or task text verbatim, or the command to read it, because a summary can change a rule and cause invalid findings.
 - User decisions that settle scope: approved exclusions, accepted limits, deferred work. Without them, the reviewer reports accepted behavior as defects.
 - Verification permissions (see Reviewer verification) and whether it may post on the PR.
-- No repository changes: no edits to tracked or untracked files, no commits, because the writer owns the branch and an edit changes the tree under review.
+- No repository changes: no edits to tracked or untracked files, no commits.
 
 First review is independent: the reviewer reads the full diff and related code before it sees the writer's explanations.
 
@@ -108,7 +108,7 @@ First review is independent: the reviewer reads the full diff and related code b
 - Fix: name the broken invariant and smallest correction. Check that it preserves related behavior (for example layout, Undo, accessibility, data that other code reads). An equivalent correction is acceptable. No new abstractions, persistence layers, or defensive code for P3.
 - Style: one brief pass for redundant work, duplication, unclear naming, and inconsistency with surrounding code or UI. Report these as optional suggestions with a concrete benefit; zero is valid.
 - Tests: follow repo/user test policy; request coverage only for a named regression or non-trivial invariant. Recommend test removal only with the behavior it protects and why that is covered or unnecessary. No seams made only for a test. A missing test alone never blocks.
-- Sub-agents (the reviewer's own in-session helpers, not Herdr agents): use them only for a diff of about 400 or more changed lines or several subsystems. Merge every sub-agent finding into the reply; list each dropped one with a one-line reason, because a dropped finding can ship as a bug.
+- Sub-agents (the reviewer's own in-session helpers, not Herdr agents): use them only for a diff of about 400 or more changed lines or several subsystems. Merge every sub-agent finding into the reply; list each dropped one with a one-line reason.
 - Device-only behavior (hardware, OS state, store sandbox, camera, presentation feel): list it as not cleared by code review. A screenshot shows only an end state; check animation and timing defects with video frames.
 
 ## Finding format
