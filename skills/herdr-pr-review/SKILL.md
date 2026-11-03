@@ -32,7 +32,7 @@ Find the mode first:
 App-mode rules:
 
 - Start each agent with `hc run --bg --name <name> --cwd <path> <command> "<first task>"`, and check `first_message.sent`.
-- Give every handoff `PARENT=$HC_TERMINAL_ID`. The agent reports with `hc send $PARENT "<status line>"`.
+- Set `PARENT=<coordinator-id>` in each handoff. Agents report with `hc send $PARENT "<status line>"`.
 - Wait with `hc wait --children any`.
 - Type agent slash commands with `hc keys <name> / m o d e l` then `hc keys <name> enter`. `hc send` wraps the text, so the command does not run.
 - Use an `hc templates` role only when it fits the runtime notes below.
