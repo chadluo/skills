@@ -18,6 +18,34 @@ Prompting rules come from the
 (GPT-6 and Claude 5 families, Oct 2026). Checked against Codex CLI 0.163.0, Claude Code 2.1.302, hc 0.1.17 and herdr
 0.9.5. Recheck when models or CLIs change.
 
+## web-brutalism
+
+Build UIs with browser-native default styles. The browser renders form controls, typography and interactive elements
+with no custom styles. You change only spacing and layout. The result follows the user's OS theme, font size, contrast
+and accessibility settings.
+
+The skill covers:
+
+- **Philosophy**: form follows function. Spacing and alignment are the primary design tools.
+- **Design brief**: set the purpose, feel and typographic voice before you write CSS.
+- **Style presets**: Swiss International, Bauhaus, Editorial, Technical and Minimalist. Each preset maps to system font
+  stack categories.
+- **System font stacks**: all 14 categories from
+  [modern-font-stacks.md](skills/web-brutalism/modern-font-stacks.md). No web font downloads.
+- **Minimal CSS baseline**: `color-scheme: light dark`, `box-sizing: border-box`, `font-size: inherit` on form elements.
+- **Allowed overrides**: spacing and layout (flex and grid), system color keywords, `line-height` on body, `font-weight`
+  on labels.
+- **Prohibited overrides**: custom `color` and `background-color` values, web fonts, `font-size` on semantic elements,
+  `border-radius`, `:focus { outline: none }`.
+- **HTML element catalog**: native interactive elements, form structure (`fieldset`, `legend`, `label`), typography,
+  sectioning and media.
+- **Settings panel pattern**: `fieldset`, `legend`, `details` and `summary`, with no custom components.
+- **Accessibility foundation**: native elements give a head start. Each project must still meet its own requirements,
+  such as touch targets, ARIA and `lang`.
+
+Examples: [examples/web-brutalism](examples/web-brutalism), live at <https://adluo.ch/skills/web-brutalism/>. The
+prompt that made them is in [PROMPTS.md](examples/web-brutalism/PROMPTS.md).
+
 ## Local development
 
 `./install.sh` links each skill in `skills/` into `~/.agents/skills` (Codex) and `~/.claude/skills` (Claude Code), so

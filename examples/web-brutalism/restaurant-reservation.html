@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reserve a table — Trattoria San Marco</title>
+  <style>
+    :root { color-scheme: light dark; }
+    *, *::before, *::after { box-sizing: border-box; }
+    input, button, select, textarea { font-size: inherit; }
+
+    body {
+      font-family: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 3rem 2rem 6rem;
+      line-height: 1.7;
+    }
+
+    /* ── Restaurant header ── */
+    .restaurant-header { margin-bottom: 3rem; }
+
+    .img-placeholder {
+      border: 1px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 1.75rem;
+      min-height: 14rem;
+    }
+
+    .img-placeholder p { margin: 0; }
+
+    .restaurant-header h1 {
+      margin-bottom: 0.25rem;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    .restaurant-header .tagline {
+      margin-bottom: 0.25rem;
+    }
+
+    .restaurant-header .address {
+      margin: 0;
+    }
+
+    /* ── Intro ── */
+    .intro {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid;
+    }
+
+    .intro p { margin-bottom: 0.5rem; }
+    .intro p:last-child { margin-bottom: 0; }
+
+    /* ── Form ── */
+    form { margin: 0; }
+
+    fieldset {
+      border: none;
+      margin: 0 0 2.5rem;
+      padding: 0;
+    }
+
+    legend {
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid;
+      width: 100%;
+      letter-spacing: 0.01em;
+    }
+
+    .field {
+      margin-bottom: 1.25rem;
+    }
+
+    .field:last-child { margin-bottom: 0; }
+
+    label {
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.5rem 0.6rem;
+    }
+
+    textarea { min-height: 6rem; resize: vertical; }
+
+    /* ── Time slot grid ── */
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-top: 0.35rem;
+    }
+
+    .time-slot {
+      display: block;
+    }
+
+    .time-slot input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .time-slot span {
+      display: block;
+      text-align: center;
+      padding: 0.5rem 0.25rem;
+      border: 1px solid;
+      cursor: pointer;
+    }
+
+    .time-slot input[type="radio"]:checked + span {
+      outline: 2px solid;
+      outline-offset: 1px;
+    }
+
+    .time-slot input[type="radio"]:focus + span {
+      outline: 3px solid;
+      outline-offset: 2px;
+    }
+
+    /* ── Party size ── */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    /* ── Dietary checkboxes ── */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 1rem;
+      margin-top: 0.35rem;
+    }
+
+    .checkbox-grid label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .checkbox-grid input[type="checkbox"] {
+      width: auto;
+      flex-shrink: 0;
+    }
+
+    /* ── Submit ── */
+    .submit-section {
+      margin-top: 1rem;
+    }
+
+    .submit-section p {
+      margin-bottom: 1.25rem;
+    }
+
+    button[type="submit"] {
+      padding: 0.7rem 2rem;
+      cursor: pointer;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid;
+    }
+
+    footer dl {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.2rem 1.5rem;
+      margin: 0;
+    }
+
+    footer dt { white-space: nowrap; }
+    footer dd { margin: 0; }
+  </style>
+</head>
+<body>
+
+  <div class="restaurant-header">
+    <div class="img-placeholder">
+      <p>Photograph: the front of Trattoria San Marco at dusk — warm light from within, hand-painted sign above the door, tables visible through the window</p>
+    </div>
+    <h1>Trattoria San Marco</h1>
+    <p class="tagline">Handmade pasta since 1987, in the heart of Carlton.</p>
+    <p class="address"><small>14 Elgin Street, Carlton VIC 3053</small></p>
+  </div>
+
+  <section class="intro">
+    <p>We'd love to have you. Our dining room seats 42 guests across two sittings each evening, and lunch service on weekends. Reservations are held for 15 minutes past the booking time.</p>
+    <p>For parties of 8 or more, or private dining enquiries, please call us directly on <a href="tel:+61393478812">(03) 9347 8812</a>.</p>
+  </section>
+
+  <form action="#" method="post" novalidate>
+
+    <fieldset>
+      <legend><strong>Your details</strong></legend>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="first-name">First name</label>
+          <input type="text" id="first-name" name="first_name" autocomplete="given-name" required>
+        </div>
+        <div class="field">
+          <label for="last-name">Last name</label>
+          <input type="text" id="last-name" name="last_name" autocomplete="family-name" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" autocomplete="email" required>
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone number <small>(for same-day contact)</small></label>
+        <input type="tel" id="phone" name="phone" autocomplete="tel">
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><strong>Your reservation</strong></legend>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required
+                 min="2026-05-07"
+                 value="2026-05-14">
+        </div>
+        <div class="field">
+          <label for="party-size">Party size</label>
+          <select id="party-size" name="party_size" required>
+            <option value="">— Select —</option>
+            <option value="1">1 guest</option>
+            <option value="2">2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+            <option value="5">5 guests</option>
+            <option value="6">6 guests</option>
+            <option value="7">7 guests</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Preferred time</label>
+        <div class="time-slots" role="group" aria-label="Available time slots">
+
+          <label class="time-slot">
+            <input type="radio" name="time" value="12:00"> <span>12:00 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="12:30"> <span>12:30 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="13:00"> <span>1:00 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="13:30" disabled> <span>1:30 pm</span>
+          </label>
+
+          <label class="time-slot">
+            <input type="radio" name="time" value="18:00"> <span>6:00 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="18:30"> <span>6:30 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="19:00"> <span>7:00 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="19:30" checked> <span>7:30 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="20:00"> <span>8:00 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="20:30"> <span>8:30 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="21:00"> <span>9:00 pm</span>
+          </label>
+          <label class="time-slot">
+            <input type="radio" name="time" value="21:30" disabled> <span>9:30 pm</span>
+          </label>
+
+        </div>
+        <p><small>Greyed slots are fully booked for this date.</small></p>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><strong>Dietary requirements</strong></legend>
+      <p><small>We'll do our best to accommodate everyone at your table.</small></p>
+      <div class="checkbox-grid">
+        <label><input type="checkbox" name="dietary" value="vegetarian"> Vegetarian</label>
+        <label><input type="checkbox" name="dietary" value="vegan"> Vegan</label>
+        <label><input type="checkbox" name="dietary" value="gluten-free"> Gluten-free</label>
+        <label><input type="checkbox" name="dietary" value="dairy-free"> Dairy-free</label>
+        <label><input type="checkbox" name="dietary" value="nut-allergy"> Nut allergy</label>
+        <label><input type="checkbox" name="dietary" value="shellfish-allergy"> Shellfish allergy</label>
+        <label><input type="checkbox" name="dietary" value="halal"> Halal</label>
+        <label><input type="checkbox" name="dietary" value="kosher"> Kosher</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><strong>Anything else?</strong></legend>
+      <div class="field">
+        <label for="notes">Special requests or occasions <small>(optional)</small></label>
+        <textarea id="notes" name="notes" placeholder="Birthday celebrations, highchair needed, a table away from the kitchen…"></textarea>
+      </div>
+    </fieldset>
+
+    <div class="submit-section">
+      <p><small>By completing this form you agree to our cancellation policy. We ask for 24 hours notice for cancellations of parties of 4 or more.</small></p>
+      <button type="submit">Request reservation</button>
+    </div>
+
+  </form>
+
+  <footer>
+    <dl>
+      <dt>Address</dt>  <dd>14 Elgin Street, Carlton VIC 3053</dd>
+      <dt>Phone</dt>    <dd><a href="tel:+61393478812">(03) 9347 8812</a></dd>
+      <dt>Email</dt>    <dd><a href="mailto:hello@trattoriasanmarco.com.au">hello@trattoriasanmarco.com.au</a></dd>
+      <dt>Lunch</dt>    <dd>Saturday – Sunday, 12:00 pm – 3:00 pm</dd>
+      <dt>Dinner</dt>   <dd>Tuesday – Sunday, 6:00 pm – 10:30 pm</dd>
+      <dt>Closed</dt>   <dd>Monday</dd>
+    </dl>
+  </footer>
+
+</body>
+</html>

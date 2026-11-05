@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub</title>
+  <style>
+    :root { color-scheme: light dark; }
+    *, *::before, *::after { box-sizing: border-box; }
+    input, button, select, textarea { font-size: inherit; }
+
+    body {
+      font-family: Bahnschrift, 'DIN Alternate', 'Franklin Gothic Medium', 'Nimbus Sans Narrow', sans-serif-condensed, sans-serif;
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    a { text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Top nav ── */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 0.6rem 1.5rem;
+      border-bottom: 2px solid;
+    }
+
+    .nav-brand { white-space: nowrap; letter-spacing: 0.06em; }
+
+    .nav-search { flex: 1; }
+    .nav-search input { width: 100%; padding: 0.3rem 0.6rem; }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    /* ── 3-column layout ── */
+    .page-body {
+      display: grid;
+      grid-template-columns: 19rem 1fr 19rem;
+      min-height: calc(100vh - 3rem);
+    }
+
+    @media (max-width: 60rem) {
+      .page-body { grid-template-columns: 1fr; }
+      .right-sidebar { border-left: none; border-top: 1px solid; }
+    }
+
+    .left-sidebar {
+      padding: 1.25rem;
+      border-right: 1px solid;
+    }
+
+    .main-content { padding: 1.25rem 1.75rem; }
+
+    .right-sidebar {
+      padding: 1.25rem;
+      border-left: 1px solid;
+    }
+
+    /* ── Fieldsets (Bauhaus structural elements) ── */
+    fieldset {
+      margin: 0 0 1.25rem;
+      padding: 0.75rem 1rem 1rem;
+    }
+
+    legend {
+      padding: 0 0.4rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* ── Repo list ── */
+    .repo-list {
+      list-style: none;
+      margin: 0.75rem 0 0;
+      padding: 0;
+    }
+
+    .repo-list li {
+      padding: 0.5rem 0;
+      border-top: 1px solid;
+    }
+
+    .repo-list li:first-child { border-top: none; }
+
+    .repo-list .repo-name { display: block; }
+    .repo-list .repo-meta { display: block; }
+
+    .repo-filter {
+      width: 100%;
+      padding: 0.3rem 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+
+    /* ── Profile summary ── */
+    .profile-summary {
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid;
+    }
+
+    .avatar-placeholder {
+      border: 1px solid;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-summary p { margin: 0.15rem 0; }
+
+    /* ── Activity feed ── */
+    .main-content h1 {
+      letter-spacing: 0.04em;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid;
+    }
+
+    .activity-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid;
+    }
+
+    .activity-item:last-child { border-bottom: none; }
+
+    .activity-actor { display: block; margin-bottom: 0.2rem; }
+    .activity-desc  { display: block; margin-bottom: 0.4rem; }
+
+    .activity-meta {
+      display: flex;
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+
+    /* ── Commit list ── */
+    .commit-list {
+      list-style: none;
+      margin: 0.4rem 0 0;
+      padding: 0 0 0 1rem;
+      border-left: 2px solid;
+    }
+
+    .commit-list li { margin: 0.2rem 0; }
+
+    /* ── Suggestions / right sidebar ── */
+    .suggestion {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid;
+    }
+
+    .suggestion:last-child { border-bottom: none; }
+
+    .suggestion-name { display: block; }
+    .suggestion-desc { display: block; }
+    .suggestion-meta { display: block; margin-top: 0.2rem; }
+
+    .trending-item {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid;
+    }
+
+    .trending-item:last-child { border-bottom: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav class="top-nav">
+      <div class="nav-brand"><strong>GitHub</strong></div>
+      <div class="nav-search">
+        <input type="search" placeholder="Search or jump to…" aria-label="Search GitHub">
+      </div>
+      <div class="nav-links">
+        <a href="#">Pull requests</a>
+        <a href="#">Issues</a>
+        <a href="#">Marketplace</a>
+        <a href="#">Explore</a>
+        <a href="#" title="3 unread notifications">Notifications <sup>3</sup></a>
+        <a href="#"><strong>octocat</strong></a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-body">
+
+    <!-- Left sidebar -->
+    <aside class="left-sidebar">
+
+      <div class="profile-summary">
+        <div class="avatar-placeholder"><small>avatar</small></div>
+        <p><strong>octocat</strong></p>
+        <p><small>The Octocat · San Francisco</small></p>
+        <p><small><a href="#">3 followers</a> · <a href="#">9 following</a></small></p>
+      </div>
+
+      <fieldset>
+        <legend>Repositories</legend>
+        <input type="search" class="repo-filter" placeholder="Find a repository…" aria-label="Filter repositories">
+        <ul class="repo-list">
+          <li>
+            <span class="repo-name"><a href="#">octocat / Hello-World</a></span>
+            <span class="repo-meta"><small>JavaScript · Updated 2h ago</small></span>
+          </li>
+          <li>
+            <span class="repo-name"><a href="#">octocat / Spoon-Knife</a></span>
+            <span class="repo-meta"><small>HTML · Updated 3 days ago</small></span>
+          </li>
+          <li>
+            <span class="repo-name"><a href="#">octocat / linguist</a></span>
+            <span class="repo-meta"><small>Ruby · Updated 1 week ago</small></span>
+          </li>
+          <li>
+            <span class="repo-name"><a href="#">octocat / git-consortium</a></span>
+            <span class="repo-meta"><small>Python · Updated 2 weeks ago</small></span>
+          </li>
+          <li>
+            <span class="repo-name"><a href="#">octocat / llama.cpp</a></span>
+            <span class="repo-meta"><small>C++ · Forked · Updated 1 week ago</small></span>
+          </li>
+        </ul>
+      </fieldset>
+
+      <fieldset>
+        <legend>Teams</legend>
+        <ul class="repo-list">
+          <li><a href="#">@github / accessibility</a></li>
+          <li><a href="#">@github / open-source</a></li>
+        </ul>
+      </fieldset>
+
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+
+      <h1>Home</h1>
+
+      <div class="activity-item">
+        <span class="activity-actor"><strong>octocat</strong> pushed to <a href="#">main</a> in <a href="#">octocat/Hello-World</a></span>
+        <ul class="commit-list">
+          <li><a href="#"><code>a3f1c8d</code></a> — Update README with API usage examples</li>
+          <li><a href="#"><code>b92e014</code></a> — Fix null check in parse_response()</li>
+          <li><a href="#"><code>d4a779f</code></a> — Add rate limit handling</li>
+        </ul>
+        <div class="activity-meta">
+          <small>2 hours ago</small>
+          <small><a href="#">octocat/Hello-World</a></small>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <span class="activity-actor"><strong>octocat</strong> opened pull request <a href="#">#7829</a> in <a href="#">torvalds/linux</a></span>
+        <span class="activity-desc"><a href="#">net: fix socket shutdown race condition under high load</a></span>
+        <div class="activity-meta">
+          <small>5 hours ago</small>
+          <small>3 comments · 2 reviewers</small>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <span class="activity-actor"><strong>octocat</strong> starred <a href="#">anthropics/anthropic-sdk-python</a></span>
+        <span class="activity-desc"><small>Official Python library for the Claude API · ⭐ 2.1k</small></span>
+        <div class="activity-meta">
+          <small>1 day ago</small>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <span class="activity-actor"><strong>defunkt</strong> commented on issue <a href="#">#14</a> in <a href="#">octocat/Spoon-Knife</a></span>
+        <span class="activity-desc">"The fork button workflow is still broken on Safari 18. Here's a repro…"</span>
+        <div class="activity-meta">
+          <small>2 days ago</small>
+          <small><a href="#">View comment →</a></small>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <span class="activity-actor"><strong>octocat</strong> forked <a href="#">ggerganov/llama.cpp</a> to <a href="#">octocat/llama.cpp</a></span>
+        <span class="activity-desc"><small>Port of Meta's LLaMA model in C/C++ · ⭐ 68.4k</small></span>
+        <div class="activity-meta">
+          <small>1 week ago</small>
+        </div>
+      </div>
+
+      <div class="activity-item">
+        <span class="activity-actor"><strong>mojombo</strong> opened issue <a href="#">#209</a> in <a href="#">github/scientist</a></span>
+        <span class="activity-desc"><a href="#">Candidate block exceptions swallowed when result mismatch occurs</a></span>
+        <div class="activity-meta">
+          <small>1 week ago</small>
+          <small>5 comments</small>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Right sidebar -->
+    <aside class="right-sidebar">
+
+      <fieldset>
+        <legend>Explore repositories</legend>
+
+        <div class="suggestion">
+          <span class="suggestion-name"><a href="#">anthropics / anthropic-sdk-python</a></span>
+          <span class="suggestion-desc"><small>Official Python library for the Claude API</small></span>
+          <span class="suggestion-meta"><small>Python · ⭐ 2.1k</small></span>
+        </div>
+
+        <div class="suggestion">
+          <span class="suggestion-name"><a href="#">ggerganov / whisper.cpp</a></span>
+          <span class="suggestion-desc"><small>Port of OpenAI's Whisper model in C/C++</small></span>
+          <span class="suggestion-meta"><small>C++ · ⭐ 28.3k</small></span>
+        </div>
+
+        <div class="suggestion">
+          <span class="suggestion-name"><a href="#">casey / just</a></span>
+          <span class="suggestion-desc"><small>A handy way to save and run project-specific commands</small></span>
+          <span class="suggestion-meta"><small>Rust · ⭐ 18.7k</small></span>
+        </div>
+
+        <div class="suggestion">
+          <span class="suggestion-name"><a href="#">zed-industries / zed</a></span>
+          <span class="suggestion-desc"><small>Code at the speed of thought — Zed is a high-performance multiplayer code editor</small></span>
+          <span class="suggestion-meta"><small>Rust · ⭐ 51.2k</small></span>
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Trending today</legend>
+
+        <div class="trending-item">
+          <a href="#">ggerganov / llama.cpp</a>
+          <span class="suggestion-meta"><small>C++ · ★ +1,241 stars today</small></span>
+        </div>
+
+        <div class="trending-item">
+          <a href="#">microsoft / TypeScript</a>
+          <span class="suggestion-meta"><small>TypeScript · ★ +834 stars today</small></span>
+        </div>
+
+        <div class="trending-item">
+          <a href="#">rust-lang / rust</a>
+          <span class="suggestion-meta"><small>Rust · ★ +621 stars today</small></span>
+        </div>
+
+        <div class="trending-item">
+          <a href="#">vercel / next.js</a>
+          <span class="suggestion-meta"><small>JavaScript · ★ +512 stars today</small></span>
+        </div>
+
+      </fieldset>
+
+      <fieldset>
+        <legend>Latest changes</legend>
+        <ul class="repo-list">
+          <li><small><a href="#">GitHub Actions: new macOS 15 runners available</a></small></li>
+          <li><small><a href="#">Copilot: GPT-4.1 now default for completions</a></small></li>
+          <li><small><a href="#">Packages: npm registry rate limit changes</a></small></li>
+        </ul>
+      </fieldset>
+
+    </aside>
+
+  </div>
+
+</body>
+</html>

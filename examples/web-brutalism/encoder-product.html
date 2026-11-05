@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AXRT-24E Incremental Rotary Encoder — Axialquant</title>
+  <style>
+    :root { color-scheme: light dark; }
+    *, *::before, *::after { box-sizing: border-box; }
+    input, button, select, textarea { font-size: inherit; }
+
+    body {
+      font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+      max-width: 64rem;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 4rem;
+      line-height: 1.5;
+    }
+
+    nav {
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid;
+    }
+
+    nav a + a::before { content: ' / '; }
+
+    .product-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid;
+    }
+
+    .product-info h1 {
+      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
+    }
+
+    .model { margin-bottom: 0.5rem; }
+    .price { margin-bottom: 1.5rem; }
+
+    .quick-specs {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.2rem 1.5rem;
+      margin: 0;
+    }
+
+    .quick-specs dt { white-space: nowrap; }
+    .quick-specs dd { margin: 0; }
+
+    .img-placeholder {
+      border: 1px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .img-placeholder p { margin: 0; }
+
+    .pin-diagram {
+      min-height: 8rem;
+      margin-bottom: 1rem;
+    }
+
+    section { margin-bottom: 2.5rem; }
+
+    section h2 {
+      letter-spacing: 0.04em;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid;
+    }
+
+    section h3 { margin-top: 1.5rem; }
+
+    p { margin-bottom: 0.75rem; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.35rem 0.75rem;
+      border-bottom: 2px solid;
+    }
+
+    td {
+      padding: 0.35rem 0.75rem;
+      border-bottom: 1px solid;
+      vertical-align: top;
+    }
+
+    td:first-child, th:first-child { white-space: nowrap; }
+
+    pre {
+      overflow-x: auto;
+      padding: 1rem 1.25rem;
+      border: 1px solid;
+      margin: 0.75rem 0;
+    }
+
+    .note {
+      border-left: 2px solid;
+      padding: 0.5rem 1rem;
+      margin: 1rem 0;
+    }
+
+    .note p { margin: 0; }
+
+    .related-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .related-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid;
+    }
+
+    .related-list li:last-child { border-bottom: none; }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid;
+    }
+
+    footer p { margin: 0; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="#">Axialquant</a>
+    <a href="#">Encoders</a>
+    <a href="#">Incremental</a>
+    <a href="#">AXRT-24E</a>
+  </nav>
+
+  <div class="product-header">
+    <div class="product-info">
+      <h1>AXRT-24E</h1>
+      <p class="model">Incremental Rotary Encoder with Push Switch</p>
+      <p class="price">$8.50 / unit · <a href="#">Datasheet PDF</a> · <a href="#">Add to cart</a></p>
+
+      <dl class="quick-specs">
+        <dt>Type</dt>        <dd>Mechanical incremental, quadrature</dd>
+        <dt>Resolution</dt>  <dd>24 PPR (detents/revolution)</dd>
+        <dt>Voltage</dt>     <dd>3.3 V – 5 V DC</dd>
+        <dt>Interface</dt>   <dd>Quadrature (A/B) + push switch</dd>
+        <dt>Output</dt>      <dd>Open collector (NPN), 10 mA max</dd>
+        <dt>Shaft</dt>       <dd>6 mm D-shaft, 20 mm height</dd>
+        <dt>Body</dt>        <dd>12 × 12 × 7 mm</dd>
+        <dt>Package</dt>     <dd>5-pin through-hole, 2.54 mm pitch</dd>
+        <dt>Temp range</dt>  <dd>−30 °C to +85 °C</dd>
+        <dt>Mech. life</dt>  <dd>50,000 cycles</dd>
+      </dl>
+    </div>
+
+    <div class="img-placeholder" style="min-height: 16rem;">
+      <p>Product image: AXRT-24E encoder — top and angled views showing D-shaft, body, and 5-pin through-hole leads</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Description</h2>
+    <p>
+      The AXRT-24E is a 24 PPR mechanical incremental rotary encoder with an integrated push-to-select switch.
+      It generates quadrature (90° phase-shifted) pulses on channels A and B, allowing host logic to determine
+      both position and rotational direction from a single interrupt source.
+    </p>
+    <p>
+      Output lines use open-collector (NPN) topology. Internal pull-up resistors are not provided; connect
+      10 kΩ resistors from OUT_A, OUT_B, and SW to VCC, or enable MCU internal pull-ups.
+      The integrated switch activates on axial shaft depression and is rated for 50 mA at 12 V.
+    </p>
+    <div class="note">
+      <p><strong>Note:</strong> Compatible with 3.3 V and 5 V logic without level-shifting. Most MCU internal pull-ups (20–50 kΩ) are adequate for hand-operated encoders at typical rotation speeds.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Electrical Specifications</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Min</th>
+          <th>Typ</th>
+          <th>Max</th>
+          <th>Unit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Supply voltage (VCC)</td>              <td>3.0</td> <td>3.3 / 5.0</td> <td>5.5</td>          <td>V</td></tr>
+        <tr><td>Quiescent current</td>                 <td>—</td>   <td>0.4</td>        <td>1.0</td>          <td>mA</td></tr>
+        <tr><td>Output sink current (OUT_A/B)</td>     <td>—</td>   <td>—</td>          <td>10</td>           <td>mA</td></tr>
+        <tr><td>Output low voltage (V<sub>OL</sub>)</td><td>—</td>  <td>0.1</td>        <td>0.4</td>          <td>V</td></tr>
+        <tr><td>Output rise/fall time</td>             <td>—</td>   <td>2</td>          <td>5</td>            <td>µs</td></tr>
+        <tr><td>Switch rating</td>                     <td>—</td>   <td>—</td>          <td>50 mA @ 12 V</td> <td>—</td></tr>
+        <tr><td>Switch contact resistance</td>         <td>—</td>   <td>100</td>        <td>500</td>          <td>mΩ</td></tr>
+        <tr><td>Switch bounce time</td>                <td>—</td>   <td>3</td>          <td>8</td>            <td>ms</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Mechanical Specifications</h2>
+    <table>
+      <thead>
+        <tr><th>Parameter</th><th>Value</th><th>Unit</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pulses per revolution</td>       <td>24</td>              <td>PPR</td></tr>
+        <tr><td>Detents per revolution</td>      <td>24</td>              <td>—</td></tr>
+        <tr><td>Mechanical life (rotation)</td>  <td>50,000</td>          <td>cycles</td></tr>
+        <tr><td>Switch actuation force</td>      <td>6 typ, 8 max</td>    <td>N</td></tr>
+        <tr><td>Switch mechanical life</td>      <td>30,000</td>          <td>cycles</td></tr>
+        <tr><td>Shaft diameter</td>              <td>6 (D-cut)</td>       <td>mm</td></tr>
+        <tr><td>Shaft height above housing</td>  <td>20</td>              <td>mm</td></tr>
+        <tr><td>Body dimensions (L×W×H)</td>     <td>12 × 12 × 7</td>    <td>mm</td></tr>
+        <tr><td>Pin pitch</td>                   <td>2.54</td>            <td>mm</td></tr>
+        <tr><td>Operating temperature</td>       <td>−30 to +85</td>      <td>°C</td></tr>
+        <tr><td>Storage temperature</td>         <td>−40 to +100</td>     <td>°C</td></tr>
+        <tr><td>Weight</td>                      <td>2.1</td>             <td>g</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Pin Configuration</h2>
+
+    <div class="img-placeholder pin-diagram">
+      <p>Pin diagram: 5-pin through-hole footprint, top view — pins 1–5 left to right, 2.54 mm pitch, with body outline and shaft centre marked</p>
+    </div>
+
+    <table>
+      <thead>
+        <tr><th>Pin</th><th>Symbol</th><th>Type</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>GND</td>   <td>Power</td>  <td>Common ground reference</td></tr>
+        <tr><td>2</td><td>VCC</td>   <td>Power</td>  <td>Supply voltage, 3.3 V – 5 V</td></tr>
+        <tr><td>3</td><td>OUT_A</td> <td>Output</td> <td>Phase A — quadrature channel A</td></tr>
+        <tr><td>4</td><td>OUT_B</td> <td>Output</td> <td>Phase B — quadrature channel B, 90° offset</td></tr>
+        <tr><td>5</td><td>SW</td>    <td>Output</td> <td>Push switch, active low — requires pull-up</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Quadrature Output Sequence</h3>
+    <table>
+      <thead>
+        <tr><th>Step</th><th>A</th><th>B</th><th>Direction note</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>0</td><td>0</td><td>CW:  0 → 1 → 2 → 3 → 0</td></tr>
+        <tr><td>1</td><td>1</td><td>0</td><td>CCW: 0 → 3 → 2 → 1 → 0</td></tr>
+        <tr><td>2</td><td>1</td><td>1</td><td>—</td></tr>
+        <tr><td>3</td><td>0</td><td>1</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Integration Examples</h2>
+
+    <h3>Arduino (C++)</h3>
+<pre><code>const byte PIN_A  = 2;   // interrupt-capable pin
+const byte PIN_B  = 3;   // interrupt-capable pin
+const byte PIN_SW = 4;
+
+volatile int32_t position = 0;
+volatile bool    pressed  = false;
+
+void onEdge() {
+  bool a = digitalRead(PIN_A);
+  bool b = digitalRead(PIN_B);
+  position += (a ^ b) ? -1 : 1;
+}
+
+void onPress() { pressed = true; }
+
+void setup() {
+  pinMode(PIN_A,  INPUT_PULLUP);
+  pinMode(PIN_B,  INPUT_PULLUP);
+  pinMode(PIN_SW, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(PIN_A),  onEdge,  CHANGE);
+  attachInterrupt(digitalPinToInterrupt(PIN_B),  onEdge,  CHANGE);
+  attachInterrupt(digitalPinToInterrupt(PIN_SW), onPress, FALLING);
+  Serial.begin(115200);
+}
+
+void loop() {
+  if (pressed) {
+    Serial.println("switch pressed");
+    pressed = false;
+  }
+  Serial.println(position);
+  delay(50);
+}</code></pre>
+
+    <h3>MicroPython (Raspberry Pi Pico)</h3>
+<pre><code>from machine import Pin
+from time import sleep_ms
+
+pin_a  = Pin(2, Pin.IN, Pin.PULL_UP)
+pin_b  = Pin(3, Pin.IN, Pin.PULL_UP)
+pin_sw = Pin(4, Pin.IN, Pin.PULL_UP)
+
+position = 0
+last_a   = pin_a.value()
+
+while True:
+    a = pin_a.value()
+    if a != last_a:
+        b = pin_b.value()
+        position += 1 if a != b else -1
+        last_a = a
+        print(f"pos={position}")
+    if not pin_sw.value():
+        print(f"switch pressed, pos={position}")
+        sleep_ms(20)  # debounce
+    sleep_ms(1)</code></pre>
+
+    <div class="note">
+      <p><strong>Tip:</strong> For interrupt-driven reading, attach to CHANGE edges on both A and B for full 4× resolution (96 counts/revolution). For hand-operated use, polling at ≥ 1 kHz is sufficient — practical max rotation is ≈ 5 RPS.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Related Products</h2>
+    <ul class="related-list">
+      <li><a href="#">AXRT-20E</a> — 20 PPR, no push switch, half-height shaft</li>
+      <li><a href="#">AXRT-48E</a> — 48 PPR, higher resolution, industrial housing with IP40 rating</li>
+      <li><a href="#">AXRT-24E-HS</a> — AXRT-24E with 15 mm half-height shaft variant</li>
+      <li><a href="#">AXAB-01</a> — Breakout board for AXRT series — includes 10 kΩ pull-ups, 0.1″ header, mounting holes</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p><small>AXRT-24E · Axialquant Electronics · Revision D, March 2026 · <a href="#">Full datasheet</a> · <a href="#">3D model (STEP)</a> · <a href="#">Distributor stock</a></small></p>
+  </footer>
+
+</body>
+</html>

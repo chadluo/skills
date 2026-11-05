@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Geometry of Distance — The Margin</title>
+  <style>
+    :root { color-scheme: light dark; }
+    *, *::before, *::after { box-sizing: border-box; }
+    input, button, select, textarea { font-size: inherit; }
+
+    body {
+      font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 6rem;
+      line-height: 1.75;
+    }
+
+    /* ── Magazine masthead ── */
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid;
+      margin-bottom: 0.5rem;
+    }
+
+    .masthead h2 {
+      margin: 0;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .masthead-nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .issue-line {
+      margin: 0 0 3rem;
+    }
+
+    /* ── Article layout ── */
+    .article-grid {
+      display: grid;
+      grid-template-columns: 1fr 15rem;
+      gap: 3.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 44rem) {
+      .article-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Article body ── */
+    .article-body h1 {
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .article-body .subtitle {
+      margin-bottom: 0.25rem;
+    }
+
+    .byline {
+      padding-bottom: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid;
+    }
+
+    .byline p { margin: 0; }
+
+    .article-body p {
+      margin-bottom: 1.25rem;
+    }
+
+    .article-body p:last-child { margin-bottom: 0; }
+
+    /* ── Pull quote ── */
+    blockquote.pull-quote {
+      margin: 2.5rem 0 2.5rem -2rem;
+      padding: 0 0 0 2rem;
+      border-left: 3px solid;
+      line-height: 1.5;
+      letter-spacing: 0.01em;
+    }
+
+    blockquote.pull-quote p { margin: 0 0 0.5rem; }
+    blockquote.pull-quote cite { display: block; }
+
+    /* ── Rating ── */
+    .rating {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid;
+    }
+
+    .rating p { margin: 0.25rem 0; }
+
+    /* ── Book aside ── */
+    .book-aside { padding-top: 0.25rem; }
+
+    .book-cover {
+      border: 1px solid;
+      width: 100%;
+      aspect-ratio: 2/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .book-cover p { margin: 0; }
+
+    .book-details {
+      margin: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.3rem 1rem;
+    }
+
+    .book-details dt { white-space: nowrap; }
+    .book-details dd { margin: 0; }
+
+    /* ── Author bio ── */
+    .author-bio {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid;
+      display: grid;
+      grid-template-columns: 4rem 1fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .author-photo {
+      border: 1px solid;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .author-photo span { font-size: 0.65em; }
+
+    .author-bio-text p { margin: 0 0 0.5rem; }
+    .author-bio-text p:last-child { margin-bottom: 0; }
+
+    /* ── Related reviews ── */
+    .related {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid;
+    }
+
+    .related h3 {
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .related-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 44rem) {
+      .related-list { grid-template-columns: 1fr; }
+    }
+
+    .related-item { padding: 0; }
+    .related-item p { margin: 0.2rem 0 0; }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid;
+    }
+
+    footer p { margin: 0; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="masthead">
+      <h2>The Margin</h2>
+      <nav class="masthead-nav">
+        <a href="#">Reviews</a>
+        <a href="#">Essays</a>
+        <a href="#">Interviews</a>
+        <a href="#">Subscribe</a>
+      </nav>
+    </div>
+    <p class="issue-line"><small>Issue 14 · April 2026 · Book Reviews</small></p>
+  </header>
+
+  <div class="article-grid">
+
+    <article class="article-body">
+      <h1>The Geometry of Distance</h1>
+      <p class="subtitle"><em>by Petra Vásárhelyi, translated by Krisztina Fehér</em></p>
+      <div class="byline">
+        <p>Reviewed by <strong>James Alleyne</strong></p>
+        <p><small>April 15, 2026 · Fitzcarraldo Editions</small></p>
+      </div>
+
+      <p>
+        Petra Vásárhelyi's debut in English translation arrives after two decades of critical acclaim
+        in Hungary and across Central Europe, and it is easy to see why Krisztina Fehér's rendering has
+        been so long anticipated. <em>The Geometry of Distance</em> is a novel of ideas that never forgets
+        it is also a novel of feeling — a rare and difficult balance, and one that Vásárhelyi achieves
+        with such apparent ease that the difficulty is almost entirely concealed.
+      </p>
+
+      <p>
+        The novel follows Ákos Veres, a Hungarian mathematician working in Vienna in the autumn of 1935,
+        who becomes quietly obsessed with a private project: mapping what he calls the "affective
+        topology" of the city — not streets and buildings but the emotional distances between people,
+        the points of connection that almost happened, the trajectories of lives that ran parallel for
+        years without touching. His maps are beautiful. They are also, as the political situation
+        around him begins to deteriorate, increasingly desperate.
+      </p>
+
+      <blockquote class="pull-quote">
+        <p>"He drew the city not as a map but as a diagram of longing — each street a possible connection,
+        each intersection a point of meeting that had never occurred."</p>
+        <cite><small>— <em>The Geometry of Distance</em>, p. 112</small></cite>
+      </blockquote>
+
+      <p>
+        The novel's structure mirrors its subject. Chapters are short and precisely calibrated, the prose
+        spare in a way that makes each image carry unusual weight. Vásárhelyi has a mathematician's
+        instinct for when to show working and when to present only the result. The result, in this case,
+        is a portrait of a man watching the world he thought he understood become legible in a new and
+        terrible way — through the geometry of exclusion rather than connection.
+      </p>
+
+      <p>
+        Fehér's translation is exemplary. Vásárhelyi's prose has a precision that resists flourish, and
+        Fehér resists the translator's temptation to smooth what the original keeps angular. The
+        mathematical terminology in particular — Ákos's interior monologue has the texture of a proof —
+        has been rendered with evident care. Only in one or two passages does the English feel slightly
+        at arm's length from its own emotion, a cost perhaps unavoidable given the source material's
+        cultivated reticence.
+      </p>
+
+      <p>
+        Where the novel is perhaps less fully successful is in its secondary characters, who occasionally
+        feel like positions in an argument rather than people with their own interiority. Ákos's colleague
+        Hartmann, who represents the novel's counterpoint of political pragmatism, is vivid enough in his
+        pronouncements but not quite in his being. This is a minor complaint against a novel that achieves
+        so much — the solitude of its central character may, in any case, demand that others appear at
+        a certain distance.
+      </p>
+
+      <p>
+        <em>The Geometry of Distance</em> is, finally, a book about what it means to try to understand
+        something — a city, a person, a century — through the instruments you have been given, knowing
+        those instruments have limits you cannot entirely see. That Vásárhelyi makes this feel urgent rather
+        than academic is a considerable achievement. Fehér has given English readers a genuine gift.
+      </p>
+
+      <div class="rating">
+        <p><strong>The Geometry of Distance</strong></p>
+        <p>Petra Vásárhelyi · tr. Krisztina Fehér · Fitzcarraldo Editions</p>
+        <p>★★★★☆</p>
+      </div>
+    </article>
+
+    <aside class="book-aside">
+      <div class="book-cover">
+        <p><small>Book cover image:<br><em>The Geometry of Distance</em><br>Fitzcarraldo Editions, 2026</small></p>
+      </div>
+
+      <dl class="book-details">
+        <dt>Author</dt>       <dd>Petra Vásárhelyi</dd>
+        <dt>Translator</dt>   <dd>Krisztina Fehér</dd>
+        <dt>Publisher</dt>    <dd>Fitzcarraldo Editions</dd>
+        <dt>Published</dt>    <dd>March 2026</dd>
+        <dt>Pages</dt>        <dd>287</dd>
+        <dt>Original</dt>     <dd><em>A Távolság Geometriája</em> (2019)</dd>
+        <dt>ISBN</dt>         <dd>978-1-80-491234-5</dd>
+        <dt>Rating</dt>       <dd>★★★★☆</dd>
+      </dl>
+    </aside>
+
+  </div>
+
+  <div class="author-bio">
+    <div class="author-photo">
+      <span>author photo</span>
+    </div>
+    <div class="author-bio-text">
+      <p><strong>James Alleyne</strong> writes on European fiction and translation for <em>The Margin</em>, the <em>London Review of Books</em>, and the <em>Times Literary Supplement</em>. He is the author of <em>The Patience of Readers</em> (2023).</p>
+      <p><a href="#">More reviews by James Alleyne →</a></p>
+    </div>
+  </div>
+
+  <section class="related">
+    <h3>Also in this issue</h3>
+    <div class="related-list">
+      <div class="related-item">
+        <a href="#"><em>Cartographies of Sleep</em></a>
+        <p><small>Nora Lindqvist · tr. Anna Braun</small></p>
+        <p><small>★★★★★</small></p>
+      </div>
+      <div class="related-item">
+        <a href="#"><em>The Long Autumn</em></a>
+        <p><small>Rafi Osei-Bonsu</small></p>
+        <p><small>★★★☆☆</small></p>
+      </div>
+      <div class="related-item">
+        <a href="#"><em>On Forgetting</em></a>
+        <p><small>Lucia Marchetti · tr. Clare Farrow</small></p>
+        <p><small>★★★★☆</small></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><small><em>The Margin</em> · Issue 14, April 2026 · <a href="#">Subscribe</a> · <a href="#">Back issues</a> · <a href="#">Editorial</a></small></p>
+  </footer>
+
+</body>
+</html>

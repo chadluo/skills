@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Brutalism — Examples</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        input,
+        button,
+        select,
+        textarea {
+            font-size: inherit;
+        }
+
+        body {
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            padding: 3rem 2rem 6rem;
+            line-height: 1.6;
+        }
+
+        header {
+            max-width: 38rem;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            margin: 0;
+        }
+
+        /* ── Grid: 3 cols → 2 → 1 ── */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem 1.5rem;
+        }
+
+        @media (max-width: 56rem) {
+            .examples-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 34rem) {
+            .examples-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── iframe preview ──
+       iframe renders at 1280px natural width, no scale transform.
+       Container clips whatever overflows on the right.
+       Height shows top ~260px of each page at native resolution. */
+        .preview-wrap {
+            overflow: hidden;
+            height: 24rem;
+            border: 1px solid;
+            margin-bottom: 1.25rem;
+        }
+
+        .preview-wrap iframe {
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            border: none;
+            display: block;
+        }
+
+        /* ── Card text ── */
+        .card-meta {
+            margin-bottom: 0.2rem;
+        }
+
+        .card-title {
+            letter-spacing: -0.01em;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-desc {
+            margin: 0 0 0.75rem;
+        }
+
+        /* ── Footer ── */
+        footer {
+            margin-top: 5rem;
+            padding-top: 2rem;
+            border-top: 1px solid;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Examples</h1>
+        <p>Five standalone pages demonstrating web brutalism — browser-native styles, semantic HTML, spacing as the primary design tool.</p>
+    </header>
+
+    <main>
+        <div class="examples-grid">
+
+            <div class="example-card">
+                <div class="preview-wrap">
+                    <iframe src="audis-landing.html" title="Audis landing page" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+                </div>
+                <p class="card-meta"><small>Minimalist · System UI</small></p>
+                <h2 class="card-title">Audis — App Landing</h2>
+                <p class="card-desc">Mobile app landing page. Maximum whitespace, single purpose, every element earns its place.</p>
+                <a href="audis-landing.html">View page →</a>
+            </div>
+
+            <div class="example-card">
+                <div class="preview-wrap">
+                    <iframe src="encoder-product.html" title="Encoder product page" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+                </div>
+                <p class="card-meta"><small>Technical · Monospace Code</small></p>
+                <h2 class="card-title">AXRT-24E — Product Detail</h2>
+                <p class="card-desc">Rotary encoder spec sheet. Dense tables, pin diagrams, and integration code — monospace throughout.</p>
+                <a href="encoder-product.html">View page →</a>
+            </div>
+
+            <div class="example-card">
+                <div class="preview-wrap">
+                    <iframe src="github-home.html" title="GitHub logged-in homepage" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+                </div>
+                <p class="card-meta"><small>Bauhaus · Industrial</small></p>
+                <h2 class="card-title">GitHub — Home Dashboard</h2>
+                <p class="card-desc">Three-column dashboard. Fieldset borders and hr are the design — no decoration beyond native structure.</p>
+                <a href="github-home.html">View page →</a>
+            </div>
+
+            <div class="example-card">
+                <div class="preview-wrap">
+                    <iframe src="restaurant-reservation.html" title="Restaurant reservation page" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+                </div>
+                <p class="card-meta"><small>Humanist · Seravek / Gill Sans Nova</small></p>
+                <h2 class="card-title">Trattoria San Marco — Reserve</h2>
+                <p class="card-desc">Reservation form with native date input, radio time slots, and dietary checkboxes. Zero JavaScript.</p>
+                <a href="restaurant-reservation.html">View page →</a>
+            </div>
+
+            <div class="example-card">
+                <div class="preview-wrap">
+                    <iframe src="book-review.html" title="Book review article" loading="lazy" scrolling="no" tabindex="-1" aria-hidden="true"></iframe>
+                </div>
+                <p class="card-meta"><small>Editorial · Charter (Transitional)</small></p>
+                <h2 class="card-title">The Margin — Book Review</h2>
+                <p class="card-desc">Literary magazine article. Pull quote, two-column layout, book aside, varied section rhythm.</p>
+                <a href="book-review.html">View page →</a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p><small>Web brutalism examples · Browser-native styles, semantic HTML, no decorative CSS overrides</small></p>
+    </footer>
+
+</body>
+
+</html>
